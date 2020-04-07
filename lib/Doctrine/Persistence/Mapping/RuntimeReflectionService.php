@@ -74,10 +74,10 @@ class RuntimeReflectionService implements ReflectionService
     {
         $reflectionProperty = new ReflectionProperty($class, $property);
 
-        if ($reflectionProperty->isPublic()) {
-            $reflectionProperty = new RuntimePublicReflectionProperty($class, $property);
-        } elseif ($this->supportsTypedPropertiesWorkaround && ! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
+        if ($this->supportsTypedPropertiesWorkaround && ! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
             $reflectionProperty = new TypedNoDefaultReflectionProperty($class, $property);
+        } elseif ($reflectionProperty->isPublic()) {
+            $reflectionProperty = new RuntimePublicReflectionProperty($class, $property);
         }
 
         $reflectionProperty->setAccessible(true);

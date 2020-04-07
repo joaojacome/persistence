@@ -22,9 +22,19 @@ class RuntimeReflectionServiceTest extends TestCase
     private string $typedNoDefaultProperty;
     /** @var string */
     private string $typedDefaultProperty = '';
+    /** @var string */
+    private $nonTypedNoDefaultProperty;
+    /** @var string */
+    private $nonTypedDefaultProperty = '';
 
     /** @var string */
     public string $typedNoDefaultPublicProperty;
+    /** @var string */
+    public string $typedDefaultPublicProperty = '';
+    /** @var string */
+    public $nonTypedNoDefaultPublicProperty;
+    /** @var string */
+    public $nonTypedDefaultPublicProperty = '';
 
     protected function setUp() : void
     {
@@ -44,10 +54,43 @@ class RuntimeReflectionServiceTest extends TestCase
         self::assertNotInstanceOf(TypedNoDefaultReflectionProperty::class, $reflProp);
     }
 
+    public function testGetNonTypedNoDefaultReflectionProperty() : void
+    {
+        $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'nonTypedNoDefaultProperty');
+        self::assertInstanceOf(ReflectionProperty::class, $reflProp);
+    }
+
+    public function testGetNonTypedDefaultReflectionProperty() : void
+    {
+        $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'nonTypedDefaultProperty');
+        self::assertInstanceOf(ReflectionProperty::class, $reflProp);
+        self::assertNotInstanceOf(TypedNoDefaultReflectionProperty::class, $reflProp);
+    }
+
     public function testGetTypedPublicNoDefaultPropertyWorksWithGetValue() : void
     {
         $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'typedNoDefaultPublicProperty');
+        self::assertInstanceOf(TypedNoDefaultReflectionProperty::class, $reflProp);
+        self::assertNull($reflProp->getValue($this));
+    }
+
+    public function testGetTypedPublicDefaultPropertyWorksWithGetValue() : void
+    {
+        $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'typedDefaultPublicProperty');
+        self::assertInstanceOf(ReflectionProperty::class, $reflProp);
+        self::assertNotInstanceOf(TypedNoDefaultReflectionProperty::class, $reflProp);
+    }
+
+    public function testGetNonTypedPublicNoDefaultPropertyWorksWithGetValue() : void
+    {
+        $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'nonTypedNoDefaultPublicProperty');
         self::assertInstanceOf(RuntimePublicReflectionProperty::class, $reflProp);
         self::assertNull($reflProp->getValue($this));
+    }
+
+    public function testGetNonTypedPublicDefaultPropertyWorksWithGetValue() : void
+    {
+        $reflProp = $this->reflectionService->getAccessibleProperty(self::class, 'nonTypedDefaultPublicProperty');
+        self::assertInstanceOf(RuntimePublicReflectionProperty::class, $reflProp);
     }
 }
