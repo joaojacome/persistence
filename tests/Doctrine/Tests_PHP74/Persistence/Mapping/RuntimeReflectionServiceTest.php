@@ -23,9 +23,9 @@ class RuntimeReflectionServiceTest extends TestCase
     /** @var string */
     private string $typedDefaultProperty = '';
     /** @var string */
-    private $nonTypedNoDefaultProperty;
+    private $nonTypedNoDefaultProperty; // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedProperty
     /** @var string */
-    private $nonTypedDefaultProperty = '';
+    private $nonTypedDefaultProperty = ''; // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedProperty
 
     /** @var string */
     public string $typedNoDefaultPublicProperty;
